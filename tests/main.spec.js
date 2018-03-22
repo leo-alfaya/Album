@@ -1,6 +1,7 @@
-import * as chai from 'chai';
-import { createFile, deleteFile, readFile, saveData, updateData, deleteData } from '../src/json-worker.js';
-import * as path from 'path';
+import chai from 'chai';
+import path from 'path';
+import fs from 'fs';
+import { createFile, deleteFile, readFile, saveData, updateData, deleteData } from '../src/json-worker';
 
 const expect = chai.expect;
 
@@ -52,13 +53,17 @@ describe('JSON Worker', function(){
       expect(dirname).to.be.a.directory().and.not.have.contents([fileName]);
     });
 
-    it('should create the teste.json file', function(){
+    it('should create the teste.json file if it does not exists', function(){
       createFile(dirname, fileName);
       expect(dirname).to.be.a.directory().with.contents([fileName]);
     });
 
+    it('should return alert when trying to create an existing file', function(){
+      expect(createFile(dirname, fileName)).to.equal('This file already exists');
+    });
+
     after(function(){
-      deleteFile(dirname, fileName);
-    })
+      fs.unlinkSync(path.join(dirname, fileName));
+    });
   });
 });

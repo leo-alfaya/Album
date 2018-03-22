@@ -2,7 +2,15 @@ import fs from 'fs';
 import path from 'path';
 
 const createFile = (dirname, name) => {
-  fs.writeFileSync(path.join(dirname, name), JSON.stringify({teste:"teste salvando arquivo"}));
+  let filePath = path.join(dirname, name);
+
+  if(!fs.existsSync(filePath)){
+    fs.writeFileSync(filePath, JSON.stringify({teste:"teste salvando arquivo"}));
+  } else {
+    return('This file already exists');
+  }
+
+
 }
 
 const deleteFile = (dirname, name) => {
