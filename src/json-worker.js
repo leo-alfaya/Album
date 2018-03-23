@@ -5,20 +5,27 @@ const createFile = (dirname, name) => {
   let filePath = path.join(dirname, name);
 
   if(!fs.existsSync(filePath)){
-    fs.writeFileSync(filePath, JSON.stringify({teste:"teste salvando arquivo"}));
+    try {
+      fs.writeFileSync(filePath, JSON.stringify({}));
+    } catch(err) {
+      console.log(err);
+    }
   } else {
     return('This file already exists');
   }
+}
 
+const deleteFile = (dirname, name) => {  try {
+    fs.unlinkSync(path.join(dirname, name));
+  } catch(err) {
+    return('This file does not exist');
+  }
 
 }
 
-const deleteFile = (dirname, name) => {
-  fs.unlinkSync(path.join(dirname, name));
-}
 
-const readFile = () => {}
 const saveData = () => {}
+const readFile = () => {}
 const updateData = () => {}
 const deleteData = () => {}
 

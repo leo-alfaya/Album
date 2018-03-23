@@ -40,30 +40,47 @@ describe('JSON Worker', function(){
     });
   });
 
-  describe('Create JSON file', function(){
+  describe('createFile()', function(){
     let dirname;
     let fileName;
 
     before(function(){
-      dirname = path.normalize(`${path.dirname(__dirname)}/data`);
+      dirname = path.normalize(`${path.dirname(__dirname)}/tests/data`);
       fileName = "teste.json";
     });
 
-    it('should not exist the teste.json file', function(){
-      expect(dirname).to.be.a.directory().and.not.have.contents([fileName]);
-    });
-
     it('should create the teste.json file if it does not exists', function(){
+      expect(dirname).to.be.a.directory().and.not.have.contents([fileName]);
       createFile(dirname, fileName);
       expect(dirname).to.be.a.directory().with.contents([fileName]);
     });
 
-    it('should return alert when trying to create an existing file', function(){
+    it('should alert when trying to create an existing file', function(){
       expect(createFile(dirname, fileName)).to.equal('This file already exists');
     });
 
     after(function(){
       fs.unlinkSync(path.join(dirname, fileName));
+    });
+  });
+
+  describe('deleteFile()', function(){
+    let dirname;
+    let fileName;
+
+    before(function(){
+      dirname = path.normalize(`${path.dirname(__dirname)}/tests/data`);
+      fileName = "teste.json";
+    });
+
+    it('should delete the teste.json file', function(){
+      createFile(dirname, fileName);
+      deleteFile(dirname, fileName);
+      expect(dirname).to.be.a.directory().and.not.have.contents([fileName]);
+    });
+
+    it('should alert when trying to delete a nonexistent file', function(){
+      expect(deleteFile(dirname, fileName)).to.equal('This file does not exist');
     });
   });
 });
