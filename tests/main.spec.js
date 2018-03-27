@@ -8,6 +8,18 @@ const expect = chai.expect;
 chai.use(require('chai-fs'));
 
 describe('JSON Worker', function(){
+  var dirname;
+  var fileName;
+
+  before(function(){
+      dirname = path.normalize(`${path.dirname(__dirname)}/tests/data`);
+      fileName = "teste.json";
+  })
+
+  after(function(){
+    fs.unlinkSync(path.join(dirname, fileName));
+  });
+
   describe('smoke tests', function(){
     it('should exist jsonWorker createFile method', function(){
       expect(createFile).to.exist;
@@ -41,14 +53,6 @@ describe('JSON Worker', function(){
   });
 
   describe('createFile()', function(){
-    let dirname;
-    let fileName;
-
-    before(function(){
-      dirname = path.normalize(`${path.dirname(__dirname)}/tests/data`);
-      fileName = "teste.json";
-    });
-
     it('should create the teste.json file if it does not exists', function(){
       expect(dirname).to.be.a.directory().and.not.have.contents([fileName]);
       createFile(dirname, fileName);
@@ -58,29 +62,24 @@ describe('JSON Worker', function(){
     it('should alert when trying to create an existing file', function(){
       expect(createFile(dirname, fileName)).to.equal('This file already exists');
     });
-
-    after(function(){
-      fs.unlinkSync(path.join(dirname, fileName));
-    });
   });
 
   describe('deleteFile()', function(){
-    let dirname;
-    let fileName;
+    var fileName_delete;
 
     before(function(){
-      dirname = path.normalize(`${path.dirname(__dirname)}/tests/data`);
-      fileName = "teste.json";
+      fileName_delete = "teste_delete.json";
     });
 
     it('should delete the teste.json file', function(){
-      createFile(dirname, fileName);
-      deleteFile(dirname, fileName);
-      expect(dirname).to.be.a.directory().and.not.have.contents([fileName]);
+      createFile(dirname, fileName_delete);
+      deleteFile(dirname, fileName_delete);
+      expect(dirname).to.be.a.directory().and.not.have.contents([fileName_delete]);
     });
 
     it('should alert when trying to delete a nonexistent file', function(){
-      expect(deleteFile(dirname, fileName)).to.equal('This file does not exist');
+      expect(deleteFile(dirname, fileName_delete)).to.equal('This file does not exist');
     });
   });
+
 });

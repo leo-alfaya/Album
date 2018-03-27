@@ -5,7 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js --bail --require babel-register",
-    "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --watch --require babel-register"
+    "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --watch --require babel-register",
+    "test:coverage": "nyc npm test"
+  },
+  "nyc": {
+    "reporter": ["text", "html"],
+    "exclude": ["tests/**"]
   },
   "keywords": [
     "Album",
@@ -22,7 +27,8 @@
     "eslint": "^4.19.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
-    "mocha": "^5.0.4"
+    "mocha": "^5.0.4",
+    "nyc": "^11.6.0"
   },
   "dependencies": {}
 }

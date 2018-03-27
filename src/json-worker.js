@@ -20,9 +20,7 @@ const deleteFile = (dirname, name) => {  try {
   } catch(err) {
     return('This file does not exist');
   }
-
 }
-
 
 const saveData = () => {}
 const readFile = () => {}
